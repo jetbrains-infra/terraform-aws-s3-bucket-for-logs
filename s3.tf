@@ -3,7 +3,6 @@ resource "aws_s3_bucket" "logs" {
 }
 
 data "aws_iam_policy_document" "logs_bucket_policy" {
-
   statement {
     sid       = "Allow LB to write logs"
     actions   = ["s3:PutObject"]
@@ -33,7 +32,6 @@ data "aws_iam_policy_document" "logs_bucket_policy" {
       identifiers = ["arn:aws:iam::162777425019:root"]
     }
   }
-
 }
 
 resource "aws_s3_bucket_policy" "logs" {

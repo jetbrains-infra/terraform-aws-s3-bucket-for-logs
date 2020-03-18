@@ -29,8 +29,8 @@ resource "aws_s3_bucket" "example" {
   bucket = "example"
 
   logging {
-    target_bucket = "${module.log_storage.bucket_id}"
-    target_prefix = "${module.log_storage.s3_logs_path}"
+    target_bucket = module.log_storage.bucket_id
+    target_prefix = module.log_storage.s3_logs_path
   }
 }
 ```
