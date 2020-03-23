@@ -8,7 +8,8 @@ Terraform module to create S3 bucket to store service logs:
 
 ### Params
 
-* `bucket` - Bucket name
+* `bucket` - Bucket name.
+* `force_destroy` - Allow remove bucket with its content (Default `false`).
 
 ### Optional params with default values
 

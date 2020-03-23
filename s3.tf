@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "logs" {
-  bucket = var.bucket
+  bucket        = var.bucket
+  force_destroy = var.force_destroy
 }
 
 data "aws_iam_policy_document" "logs_bucket_policy" {
