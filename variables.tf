@@ -5,7 +5,7 @@ variable "cdn_logs_path" {
 
 variable "alb_logs_path" {
   description = "Prefix for ALB logs."
-  default     = "alb/"
+  default     = "alb"
 }
 
 variable "s3_logs_path" {
