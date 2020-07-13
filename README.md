@@ -23,7 +23,7 @@ Default
 ```
 module "log_storage" {
     source = "github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs"
-    name   = "example-logs"
+    bucket = "example-logs"
 }
 
 resource "aws_s3_bucket" "example" {
