@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "logs_bucket_policy" {
     resources = ["arn:aws:s3:::${aws_s3_bucket.logs.bucket}/${var.alb_logs_path}*"]
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::156460612806:root"]
+      identifiers = [data.aws_elb_service_account.current.arn]
     }
   }
 
