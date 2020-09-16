@@ -30,7 +30,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "example"
 
   logging {
-    target_bucket = module.log_storage.bucket_id
+    target_bucket = module.log_storage.s3_logs_bucket
     target_prefix = module.log_storage.s3_logs_path
   }
 }
@@ -38,10 +38,10 @@ resource "aws_s3_bucket" "example" {
 
 ## Outputs
 
-* `bucket`
-* `bucket_id`
-* `bucket_arn`
-* `bucket_domain_name` - for CloudFront distribution
+* `s3_logs_bucket`
+* `alb_logs_bucket`
+* `cdn_logs_bucket`
 * `s3_logs_path`
 * `alb_logs_path`
 * `cdn_logs_path`
+* `bucket_arn`
