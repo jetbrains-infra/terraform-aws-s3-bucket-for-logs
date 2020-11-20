@@ -62,7 +62,7 @@ locals {
       identifiers = formatlist("arn:aws:iam::%s:root", var.readers)
     }
   ]
-  statements = var.readers != [] ? merge(local.aws_services, local.readers) : local.aws_services
+  statements = var.readers != [] ? concat(local.aws_services, local.readers) : local.aws_services
   tags = merge({
     Module       = "S3 Bucket for Logs"
     ModuleSource = "https://github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs/"
