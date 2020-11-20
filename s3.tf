@@ -1,36 +1,22 @@
 resource "aws_s3_bucket" "logs" {
   bucket        = var.bucket
   force_destroy = var.force_destroy
+  tags          = local.tags
 }
 
 data "aws_iam_policy_document" "logs_bucket_policy" {
-  statement {
-    sid       = "Allow LB to write logs"
-    actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.logs.bucket}/${var.alb_logs_path}*"]
-    principals {
-      type        = "AWS"
-      identifiers = [data.aws_elb_service_account.current.arn]
-    }
-  }
+  dynamic "statement" {
+    for_each = local.statements
 
-  statement {
-    sid       = "Permit access log delivery by AWS ID for Log Delivery service"
-    actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.logs.bucket}/${var.s3_logs_path}*"]
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::858827067514:root"]
-    }
-  }
+    content {
+      sid       = statement.value.description
+      actions   = statement.value.actions
+      resources = statement.value.resources
 
-  statement {
-    sid       = "Permit access log delivery by AWS ID for CloudFront service"
-    actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.logs.bucket}/${var.cdn_logs_path}*"]
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::162777425019:root"]
+      principals {
+        type        = "AWS"
+        identifiers = statement.value.identifiers
+      }
     }
   }
 }
