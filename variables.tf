@@ -30,6 +30,7 @@ variable "readers" {
 variable "tags" {
   description = "Tags."
   type        = map(string)
+  default     = {}
 }
 data "aws_elb_service_account" "current" {}
 
