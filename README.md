@@ -1,6 +1,6 @@
 ## About
 
-Terraform module to create S3 bucket to store service logs:
+Terraform module to create an S3 bucket for storing service logs:
 
 * S3
 * CloudFront
@@ -9,7 +9,6 @@ Terraform module to create S3 bucket to store service logs:
 ### Params
 
 * `bucket` - Bucket name.
-* `tags` - Bucket tags.
 * `force_destroy` - Allow remove bucket with its content (Default: `false`).
 * `readers` - A list of AWS accounts who can read from bucket (Default: `[]`).
 * `cdn_logs_path` - Prefix for CloudFront logs (Default: `cdn`)
@@ -42,10 +41,6 @@ module "log_storage" {
   bucket        = "example-logs"
   force_destroy = false
   readers       = []
-  tags = {
-    Module       = "S3 Bucket for Logs"
-    ModuleSource = "https://github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs/"
-  }
 }
 ```
 
