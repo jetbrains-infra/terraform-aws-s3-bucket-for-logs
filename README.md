@@ -12,9 +12,9 @@ Terraform module to create S3 bucket to store service logs:
 * `tags` - Bucket tags.
 * `force_destroy` - Allow remove bucket with its content (Default: `false`).
 * `readers` - A list of AWS accounts who can read from bucket (Default: `[]`).
-* `cdn_logs_path` - Prefix for CloudFront logs (Default: `cdn/`)
+* `cdn_logs_path` - Prefix for CloudFront logs (Default: `cdn`)
 * `alb_logs_path` - Prefix for ALB logs (Default: `alb`)
-* `s3_logs_path` - Prefix for S3 access logs (Default: `s3/`)
+* `s3_logs_path` - Prefix for S3 access logs (Default: `s3`)
 
 ## Usage
 
