@@ -14,7 +14,7 @@ variable "alb_logs_path" {
   default     = "alb"
 
   validation {
-    condition     = substr(var.cdn_logs_path, 0, 1) != "/" && substr(var.cdn_logs_path, -1, 1) != "/" && length(var.cdn_logs_path) > 0
+    condition     = substr(var.alb_logs_path, 0, 1) != "/" && substr(var.alb_logs_path, -1, 1) != "/" && length(var.alb_logs_path) > 0
     error_message = "Parameter `alb_logs_path` cannot start and end with \"/\", as well as cannot be empty."
   }
 }
@@ -24,7 +24,7 @@ variable "s3_logs_path" {
   default     = "s3"
 
   validation {
-    condition     = substr(var.cdn_logs_path, 0, 1) != "/" && substr(var.cdn_logs_path, -1, 1) != "/" && length(var.cdn_logs_path) > 0
+    condition     = substr(var.s3_logs_path, 0, 1) != "/" && substr(var.s3_logs_path, -1, 1) != "/" && length(var.s3_logs_path) > 0
     error_message = "Parameter `s3_logs_path` cannot start and end with \"/\", as well as cannot be empty."
   }
 }
