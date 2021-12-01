@@ -49,8 +49,11 @@ data "aws_iam_policy_document" "alb" {
 data "aws_iam_policy_document" "cloudfront" {
   statement {
     principals {
-      identifiers = ["c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"] // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
-      type        = "CanonicalUser"
+      // Canonical ID transforms to this value and there is always drift
+      // "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+      // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
+      identifiers = ["arn:aws:iam::162777425019:root"]
+      type        = "AWS"
     }
     actions   = ["s3:PutObject"]
     resources = ["arn:aws:s3:::${local.bucket}/${var.cdn_logs_path}/*"]
@@ -74,7 +77,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     data.aws_iam_policy_document.s3.json,
     data.aws_iam_policy_document.alb.json,
     data.aws_iam_policy_document.cloudfront.json,
-  ] : [
+    ] : [
     data.aws_iam_policy_document.s3.json,
     data.aws_iam_policy_document.alb.json,
     data.aws_iam_policy_document.cloudfront.json,
