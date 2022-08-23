@@ -49,6 +49,7 @@ variable "readers" {
 }
 data "aws_elb_service_account" "current" {}
 data "aws_caller_identity" "current" {}
+data "aws_partition" "current" {}
 
 locals {
   bucket                  = var.bucket
@@ -58,6 +59,10 @@ locals {
   elb_service_account_arn = data.aws_elb_service_account.current.arn
   readers                 = var.readers
   force_destroy           = var.force_destroy
+  canonical_ids = {
+    "aws-cn" = "a52cb28745c0c06e84ec548334e44bfa7fc2a85c54af20cd59e4969344b7af56", // https://docs.amazonaws.cn/en_us/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
+    "aws"    = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"  // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
+  }
 
   tags = {
     Module       = "S3 Bucket for Logs"
