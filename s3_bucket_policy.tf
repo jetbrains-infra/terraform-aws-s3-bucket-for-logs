@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "s3" {
     actions = [
       "s3:PutObject"
     ]
-    resources = ["arn:aws:s3:::${local.bucket}/${local.s3_logs_prefix}/*"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::${local.bucket}/${local.s3_logs_prefix}/*"]
   }
 }
 
@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "alb" {
       type        = "AWS"
     }
     actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${local.bucket}/${local.alb_logs_prefix}/AWSLogs/${local.account_id}/*"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::${local.bucket}/${local.alb_logs_prefix}/AWSLogs/${local.account_id}/*"]
   }
 
   statement {
@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "alb" {
       type        = "Service"
     }
     actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${local.bucket}/${local.alb_logs_prefix}/AWSLogs/${local.account_id}/*"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::${local.bucket}/${local.alb_logs_prefix}/AWSLogs/${local.account_id}/*"]
     condition {
       test     = "StringEquals"
       values   = ["bucket-owner-full-control"]
@@ -42,28 +42,27 @@ data "aws_iam_policy_document" "alb" {
       type        = "Service"
     }
     actions   = ["s3:GetBucketAcl"]
-    resources = ["arn:aws:s3:::${local.bucket}"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::${local.bucket}"]
   }
 }
 
 data "aws_iam_policy_document" "cloudfront" {
   statement {
     principals {
-      // Canonical ID transforms to this value and there is always drift
-      // "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+      // Grant permission to awslogsdelivery by specifying the account's canonical ID
       // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
-      identifiers = ["arn:aws:iam::162777425019:root"]
-      type        = "AWS"
+      identifiers = [lookup(local.canonical_ids, data.aws_partition.current.partition)]
+      type        = "CanonicalUser"
     }
     actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${local.bucket}/${var.cdn_logs_path}/*"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::${local.bucket}/${var.cdn_logs_path}/*"]
   }
 }
 
 data "aws_iam_policy_document" "external_readers" {
   statement {
     principals {
-      identifiers = formatlist("arn:aws:iam::%s:root", local.readers)
+      identifiers = formatlist("arn:${data.aws_partition.current.partition}:iam::%s:root", local.readers)
       type        = "AWS"
     }
     actions = [

@@ -10,7 +10,7 @@ Terraform module to create an S3 bucket for storing service logs:
 
 * `bucket` - Bucket name.
 * `force_destroy` - Allow remove bucket with its content (Default: `false`).
-* `readers` - A list of AWS accounts who can read from bucket (Default: `[]`).
+* `readers` - A list of AWS accounts who can read from bucket (Default: `[]`)
 * `cdn_logs_path` - Prefix for CloudFront logs (Default: `cdn`)
 * `alb_logs_path` - Prefix for ALB logs (Default: `alb`)
 * `s3_logs_path` - Prefix for S3 access logs (Default: `s3`)
@@ -37,10 +37,10 @@ resource "aws_s3_bucket" "example" {
 Default values 
 ```hcl
 module "log_storage" {
-  source        = "github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs?ref=X.X.X" // see https://github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs/releases/latest
-  bucket        = "example-logs"
-  force_destroy = false
-  readers       = []
+  source                  = "github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs?ref=X.X.X" // see https://github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs/releases/latest
+  bucket                  = "example-logs"
+  force_destroy           = false
+  readers                 = []
 }
 ```
 
