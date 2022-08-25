@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "cloudfront" {
 data "aws_iam_policy_document" "external_readers" {
   statement {
     principals {
-      identifiers = concat(formatlist("arn:aws:iam::%s:root", local.reader_account_numbers), local.reader_full_arns)
+      identifiers = formatlist("arn:${data.aws_partition.current.partition}:iam::%s:root", local.readers)
       type        = "AWS"
     }
     actions = [
@@ -82,9 +82,4 @@ data "aws_iam_policy_document" "bucket_policy" {
     data.aws_iam_policy_document.cloudfront.json,
     data.aws_iam_policy_document.external_readers.json
   ]
-}
-
-locals {
-  reader_full_arns       = [for r in local.readers : r if length(regexall("^arn:aws(-cn|-us-gov)?:", r)) > 0]
-  reader_account_numbers = setsubtract(local.readers, local.reader_full_arns)
 }
