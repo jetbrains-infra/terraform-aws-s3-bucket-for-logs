@@ -47,20 +47,22 @@ variable "readers" {
   type        = list(string)
   default     = []
 }
-data "aws_elb_service_account" "current" {}
-data "aws_caller_identity" "current" {}
-
-locals {
-  bucket                  = var.bucket
-  s3_logs_prefix          = var.s3_logs_path
-  alb_logs_prefix         = var.alb_logs_path
-  account_id              = data.aws_caller_identity.current.account_id
-  elb_service_account_arn = data.aws_elb_service_account.current.arn
-  readers                 = var.readers
-  force_destroy           = var.force_destroy
-
-  tags = {
-    Module       = "S3 Bucket for Logs"
-    ModuleSource = "https://github.com/jetbrains-infra/terraform-aws-s3-bucket-for-logs/"
+variable "server_side_encryption_configuration_bucket_key_enabled" {
+  description = "Specify if to use Amazon S3 Bucket Keys for SSE-KMS."
+  type        = bool
+  default     = false
+}
+variable "server_side_encryption_configuration_bucket_key_sse_algorithm" {
+  description = "Specify what server-side encryption algorithm to use."
+  validation {
+    condition     = regexall("AES256|aws:kms", var.server_side_encryption_configuration_bucket_key_sse_algorithm)
+    error_message = "Supported values are AES256 or aws:kms."
   }
+  type    = string
+  default = "AES256"
+}
+variable "server_side_encryption_configuration_bucket_key_kms_master_key_id" {
+  description = "Specify the configuration for the server side configuration of the S3 bucket."
+  type        = string
+  default     = null
 }
