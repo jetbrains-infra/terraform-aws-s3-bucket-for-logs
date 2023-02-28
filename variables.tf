@@ -55,7 +55,7 @@ variable "server_side_encryption_configuration_bucket_key_enabled" {
 variable "server_side_encryption_configuration_bucket_key_sse_algorithm" {
   description = "Specify what server-side encryption algorithm to use."
   validation {
-    condition     = regexall("AES256|aws:kms", var.server_side_encryption_configuration_bucket_key_sse_algorithm)
+    condition     = can(regexall("AES256|aws:kms", var.server_side_encryption_configuration_bucket_key_sse_algorithm))
     error_message = "Supported values are AES256 or aws:kms."
   }
   type    = string
